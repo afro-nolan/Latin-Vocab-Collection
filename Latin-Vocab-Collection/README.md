@@ -3,3 +3,13 @@
  
  
  ![Current_state](https://github.com/afro-nolan/Latin-Vocab-Collection/blob/master/Latin-Vocab-Collection/Screenshot%202019-09-09%20at%2017.17.44.png)
+
+
+
+<b>Dependencies</b>
+You must have beautifulSoup4 and requests installed so that the import will work.
+
+How To Use:
+1. Download all files into one folder
+2. First run crawl.py to get your list of words. These will be written into a file called latin.txt.
+3. Run main.py to start.
