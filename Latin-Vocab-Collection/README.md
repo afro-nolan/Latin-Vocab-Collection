@@ -6,10 +6,10 @@
 
 
 
-<b>Dependencies</b>
+<h2>Dependencies</h2>
 You must have beautifulSoup4 and requests installed so that the import will work.
 
-How To Use:
+<h2>How To Use: </h2>
 1. Download all files into one folder
 2. First run crawl.py to get your list of words. These will be written into a file called latin.txt.
 3. Run main.py to start.
