@@ -4,32 +4,49 @@ from bs4 import BeautifulSoup
 import os
 
 def main():
-	homepage = "https://en.wikipedia.org/wiki/List_of_Latin_words_with_English_derivatives"
+	#homepage = "https://en.wikipedia.org/wiki/List_of_Latin_words_with_English_derivatives"
+	homepage = "https://www.math.ubc.ca/~cass/frivs/latin/latin-dict-full.html"
 	crawled_file = 'latin.txt'
 	create_file(crawled_file)
-	gather_words(homepage)
+	translations = gather_words(homepage)
+	write_file(crawled_file, translations)
 
 def create_file(crawled):
+	"""Create a file"""
 	if not os.path.isfile(crawled):
 		write_file(crawled, "")
 
 def write_file(file, data):
-	print(file)
+	"""Write data to file"""
 	with open(file, "w") as f:
-		f.write(data)
+		for k in data:
+			f.write("{} : {}\n".format(k, data[k]))
 
 def append_to_file(path, data):
-    with open(path, "a") as f:
-        f.write(data + "\n")
+	"""Append date to file"""
+	with open(path, "a") as f:
+		f.write(data + "\n")
 
 def gather_words(page):
+	"""Get the words from the webpage and return them in a dictionary"""
 	source_code = requests.get(page)
 	plain_text = source_code.text
 	soup = BeautifulSoup(plain_text, 'html.parser')
-	table = soup.find_all('tbody')
-	soup1 = table.text
-	soup1 = BeautifulSoup(soup1, 'html.parser')
-	print(soup1.find_all('a'))
+	latin = soup.find_all("strong")
+	english = soup.find_all("em")
+	trans = {}
+	latin_words = []
+	for i in range(len(latin)):
+		word = latin[i].text
+		word = word.replace(":", "")
+		word = word.replace("(", "")
+		word = word.replace(")", "").strip()
+		if len(word) > 1:
+			latin_words.append(word)
+	english_words = [english[i].text.strip() for i in range(len(english))]
+	for i in range(len(english_words)):
+		trans[latin_words[i]] = english_words[i]
+	return trans
 
 if __name__ == "__main__":
 	main()
